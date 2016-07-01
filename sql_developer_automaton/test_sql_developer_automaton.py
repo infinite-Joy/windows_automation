@@ -15,16 +15,16 @@ import lfe_task
 from nose.tools import nottest
 
 # helper functions
-try: 
-    from pywinauto import application 
-except ImportError: 
-    import os.path 
-    pywinauto_path = os.path.abspath(__file__) 
-    pywinauto_path = os.path.split(os.path.split(pywinauto_path)[0])[0] 
-    import sys 
-    sys.path.append(pywinauto_path) 
+try:
     from pywinauto import application
-    
+except ImportError:
+    import os.path
+    pywinauto_path = os.path.abspath(__file__)
+    pywinauto_path = os.path.split(os.path.split(pywinauto_path)[0])[0]
+    import sys
+    sys.path.append(pywinauto_path)
+    from pywinauto import application
+
 from pywinauto import findwindows
 from pywinauto.controls.HwndWrapper import HwndWrapper
 from pywinauto import WindowAmbiguousError
@@ -36,17 +36,17 @@ def present_active_window(window_name):
         wind = app.window_(handle=w_handle)
         if window_name == wind.Texts():
             return True
-            
+
 def skipIf(skip_condition=True, msg=None):
     ''' Make function raise SkipTest exception if skip_condition is true
 
     Parameters
     ----------
-    skip_condition : bool or callable. 
-        Flag to determine whether to skip test.  If the condition is a 
-        callable, it is used at runtime to dynamically make the decision.  This 
-        is useful for tests that may require costly imports, to delay the cost 
-        until the test suite is actually executed.        
+    skip_condition : bool or callable.
+        Flag to determine whether to skip test.  If the condition is a
+        callable, it is used at runtime to dynamically make the decision.  This
+        is useful for tests that may require costly imports, to delay the cost
+        until the test suite is actually executed.
     msg : string
         Message to give on raising a SkipTest exception
 
@@ -76,17 +76,17 @@ def skipIf(skip_condition=True, msg=None):
                 return f(*args, **kwargs)
         return nose.tools.make_decorator(f)(skipper)
     return wrapper
-    
+
 def runWhen(run_condition=True):
     ''' Make function raise SkipTest exception if run_condition is true
 
     Parameters
     ----------
-    run_condition : bool or callable. 
-        Flag to determine whether to skip test.  If the condition is a 
-        callable, it is used at runtime to dynamically make the decision.  This 
-        is useful for tests that may require costly imports, to delay the cost 
-        until the test suite is actually executed.        
+    run_condition : bool or callable.
+        Flag to determine whether to skip test.  If the condition is a
+        callable, it is used at runtime to dynamically make the decision.  This
+        is useful for tests that may require costly imports, to delay the cost
+        until the test suite is actually executed.
     msg : string
         Message to give on raising a SkipTest exception
 
@@ -116,7 +116,7 @@ def runWhen(run_condition=True):
                 raise nose.SkipTest, msg
         return nose.tools.make_decorator(f)(runnner)
     return wrapper
-    
+
 ## end of helper functions
 
 ## tests
@@ -125,14 +125,14 @@ def test_load_config_file():
     res = load_config_file()
     print(res)
     assert res == {u'task1': {u'path': u'path/to.sql/developer', u'query': u"sleect query"}}
-    
+
 #@skipIf(skip_condition=present_active_window([u'Oracle SQL Developer']))#
 @nottest
 def test_open_app():
     open_app()
     time.sleep(10)
     assert present_active_window([u'Oracle SQL Developer']) == 2
-    
+
 #@runWhen(run_condition=present_active_window([u'Tip of the Day']))
 @nottest
 def test_close_tip_of_the_day():
@@ -144,7 +144,7 @@ def test_close_tip_of_the_day():
 def test_open_conections():
     open_conections()
     assert True
-    
+
 @nottest
 def test_run_queries():
     try:
@@ -153,12 +153,12 @@ def test_run_queries():
     except Exception, e:
         print(e)
         assert False
-    
+
 @nottest
 def test_save_query_output():
     save_query_output()
     assert True
-  
+
 @nottest
 def test_handle_export_window():
     try:
@@ -167,15 +167,15 @@ def test_handle_export_window():
     except Exception, e:
         print(e)
         assert False
- 
+
 #@nottest 
 def test_get_query():
     res = get_query()
     print(res)
     assert res == [select query list]
-    
+
 def test_map_plus_typekey1():
-    res = map_plus_typekey(["(+)"])    
+    res = map_plus_typekey(["(+)"])
     assert res == ['{(}', '{+}', '{)}']
 
 
@@ -184,7 +184,7 @@ def test_map_plus_typekey2():
     print(res)
     assert res == 1
 
-@nottest    
+@nottest
 def test_emailling():
     emailling()
     assert True
