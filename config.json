@@ -1,0 +1,7 @@
+{
+    "task1":
+    {
+        "path": "path/to/sql/developer",
+        "query": "select query desc;"
+    }
+}
